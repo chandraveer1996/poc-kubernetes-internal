@@ -1,0 +1,7 @@
+pulumi new aws-typescript
+then some files will be created then manually enter index.ts file 
+if in ubuntu install nodejs and npm then 
+after all setup of files 
+run 
+pulumi up
+
