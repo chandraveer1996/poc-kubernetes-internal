@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+  namespace: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      volumes:
+      - name: jenkins-volume
+        persistentVolumeClaim:
+          claimName: jenkins-pvc
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins
+        volumeMounts:
+        - name: jenkins-volume
+          mountPath: /var
+          subPath: jenkins_home
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins #name of the Jenkins Kubernetes Service
+  namespace: jenkins
+spec:
+  type: LoadBalancer #Type of the Jenkins Kubernetes Service
+  ports:
+  - port: 8080 #port for the Jenkins Kubernetes Service
+    targetPort: 8080 #port for the Jenkins pod
+  selector:
+    app: jenkins
