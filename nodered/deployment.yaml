@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gps-node-red-deployment
+  namespace: nodered
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gps-node-red
+  template:
+    metadata:
+      labels:
+        app: gps-node-red
+    spec:
+      containers:
+        - name: gps-node-red
+          image: rsalk/gps-node-red:1.1
+          ports:
+            - containerPort: 1880
+            
